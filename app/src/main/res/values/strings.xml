@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">GradeAnalyzer</string>
     <string name="action_settings">Settings</string>
+    <string name="edit_message">Enter a class</string>
+    <string name="button_add">Add</string>
 </resources>
