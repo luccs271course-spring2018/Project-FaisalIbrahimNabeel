@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final String COURSE_NAME = "com.example.myfirstapp.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +26,23 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(COURSE_NAME, message);
         startActivity(intent);
     }**/
 
     /** Called when the user taps the Send button */
     public void addClass(View view) {
+
+        /** Creates a New Intent that opens AddClassActivity. */
         Intent intent = new Intent(this, AddClassActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
+
+        //Holds the value of the plain text box.
+            // Casted to type:String from type:editText.
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+
+        // Passes the course's name to AddClassActivity.
+        intent.putExtra(COURSE_NAME, message);
         startActivity(intent);
     }
 

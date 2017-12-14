@@ -56,13 +56,15 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="29dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="62dp"
         android:text="@string/goal_points"
+        app:layout_constraintBottom_toTopOf="@+id/linL1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginRight="29dp"
+        android:layout_marginLeft="8dp" />
 
     <LinearLayout
         android:id="@+id/linL5"
@@ -379,26 +381,13 @@
         android:layout_width="92dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
         android:onClick="saveValues"
         android:text="@string/class_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/button2"
-        tools:ignore="RtlCompat" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="18dp"
-        android:onClick="viewCourseGrades"
-        android:text="@string/calculate_points"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button3"
         tools:ignore="RtlCompat" />
 
 </android.support.constraint.ConstraintLayout>
