@@ -30,7 +30,7 @@ import java.util.Set;
 public class AddClassActivity extends AppCompatActivity {
     //public static final String COURSE_MAP = "com.example.myfirstapp.MESSAGE";
     //public static List<Object> courseAssignments = new ArrayList<>();
-    public static final String COURSE_NAME = "com.example.myfirstapp.MESSAGE";
+    public static final String FINAL_ANSWER = "com.example.myfirstapp.MESSAGE";
     HashMap<String, Set<List<String>>> courseMap = new HashMap<>();
     Set<List<String>> assignmentSet = new HashSet<>();
     int clickCount = 0;
@@ -223,7 +223,7 @@ public class AddClassActivity extends AppCompatActivity {
          *   * 2.The algorithm to predict the user's grade.*/
 
 
-        SaveCourseValues(courseMap, courseNameHolder, gradeRequired);
+        String FINAL_ANSWER = SaveCourseValues(courseMap, courseNameHolder, gradeRequired);
 
         /** Passes the course's name to the DisplayMessageActivity then starts that activity*/
         intent.putExtra(FINAL_ANSWER, courseNameHolder);
@@ -238,7 +238,7 @@ public class AddClassActivity extends AppCompatActivity {
 
         //Set<List<String>> myAssignmentSet = new HashSet<>();
 
-        String finalAnswer;
+        String finalAnswer = "";
 
         switch (gradeRequired) {
             case "A":
@@ -286,12 +286,12 @@ public class AddClassActivity extends AppCompatActivity {
                 WEIGHT_NEEDED = GRADE_VALUE - WEIGHT_OBTAINED;
                 POINTS_REQUIRED = (WEIGHT_NEEDED / Double.parseDouble(assignmentList.get(3)))
                         * Double.parseDouble(assignmentList.get(2));
-                finalAnswer = "You need to get "
+                finalAnswer += "You need to get "
                         + POINTS_REQUIRED + " points in " + assignmentList.get(0)
                         + " to receive a(an) " + gradeRequired + " in " + courseNameHolder;
             }
         }
-
+    return finalAnswer;
     }
-public void onClick(android.view.View view) {}}
+}
 

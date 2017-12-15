@@ -33,7 +33,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         //Log.v("HashMapTest", String.valueOf(hashMap.get("key")));
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(FINAL_ANSWER);
+        String message = intent.getStringExtra(AddClassActivity.FINAL_ANSWER);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView2);
