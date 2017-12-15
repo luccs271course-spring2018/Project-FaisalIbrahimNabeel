@@ -35,6 +35,13 @@ public class AddClassActivity extends AppCompatActivity {
     Set<List<String>> assignmentSet = new HashSet<>();
     int clickCount = 0;
 
+    public static double WEIGHT_OBTAINED = 0.0;
+    public static double WEIGHT_NEEDED;
+    public static double GRADE_VALUE;
+    public static double POINTS_REQUIRED;
+    //public static String FINAL_ANSWER;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,21 +207,91 @@ public class AddClassActivity extends AppCompatActivity {
         /** assign the final Set as the value for the course's key. */
         courseMap.put(courseNameHolder, assignmentSet);
 
+        /** Defines EditText2 (the plain text holding the wanted Grade
+         *  and saves it in String "gradeRequired".
+         */
+
+        EditText editText2 = findViewById(R.id.editText2);
+        String gradeRequired = editText2.getText().toString();
+
         /** Create appState: an instance of the application state.
          * * Used to retrieve data from and to the global "GradeAnalyzerClass" that contains:
          *   * 1.Data storage of:
          *     * All courses using LinkedLists.
-         *     * The assignments of each course using HashMaps.
+         *     * The assignments of each coursGradePredictorApplicatione using HashMaps.
          *     * The grades and description of each assignment using Lists.
          *   * 2.The algorithm to predict the user's grade.*/
 
-        GradeAnalyzerApplication appState = ((GradeAnalyzerApplication)this.getApplication());
-        appState.service.SaveCourseValues(courseMap, courseNameHolder);
+
+        SaveCourseValues(courseMap, courseNameHolder, gradeRequired);
 
         /** Passes the course's name to the DisplayMessageActivity then starts that activity*/
-        intent.putExtra(COURSE_NAME, courseNameHolder);
+        intent.putExtra(FINAL_ANSWER, courseNameHolder);
         //intent.putExtra(COURSE_NAME, String.valueOf(courseAssignments));
+        //GradePredictorApplication.getInstance();
+        //GradePredictorApplication.SaveCourseValues
         startActivity(intent);
     }
-}
+
+    public String SaveCourseValues(HashMap<String, Set<List<String>>> myCourseMap,
+                                 String courseNameHolder, String gradeRequired){
+
+        //Set<List<String>> myAssignmentSet = new HashSet<>();
+
+        String finalAnswer;
+
+        switch (gradeRequired) {
+            case "A":
+                GRADE_VALUE = 93;
+                break;
+            case "A-":
+                GRADE_VALUE = 89;
+                break;
+            case "B+":
+                GRADE_VALUE = 85;
+                break;
+            case "B":
+                GRADE_VALUE = 80;
+                break;
+            case "B-":
+                GRADE_VALUE = 75;
+                break;
+            case "C+":
+                GRADE_VALUE = 70;
+                break;
+            case "C":
+                GRADE_VALUE = 65;
+                break;
+            case "C-":
+                GRADE_VALUE = 60;
+                break;
+            case "D+":
+                GRADE_VALUE = 55;
+                break;
+            case "D":
+                GRADE_VALUE = 50;
+                break;
+            default:
+                GRADE_VALUE = 0.0;
+                break;
+        }
+
+        for(List<String> assignmentList: myCourseMap.get(courseNameHolder)){
+            System.out.println(assignmentList);
+
+            if(assignmentList.get(1) != ""){
+                WEIGHT_OBTAINED += (Double.parseDouble(assignmentList.get(1))
+                        / Double.parseDouble(assignmentList.get(2))) * Double.parseDouble(assignmentList.get(3));
+            }else if(assignmentList.get(1) == ""){
+                WEIGHT_NEEDED = GRADE_VALUE - WEIGHT_OBTAINED;
+                POINTS_REQUIRED = (WEIGHT_NEEDED / Double.parseDouble(assignmentList.get(3)))
+                        * Double.parseDouble(assignmentList.get(2));
+                finalAnswer = "You need to get "
+                        + POINTS_REQUIRED + " points in " + assignmentList.get(0)
+                        + " to receive a(an) " + gradeRequired + " in " + courseNameHolder;
+            }
+        }
+
+    }
+public void onClick(android.view.View view) {}}
 

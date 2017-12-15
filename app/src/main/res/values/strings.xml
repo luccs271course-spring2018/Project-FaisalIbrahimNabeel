@@ -6,8 +6,10 @@
     <string name="assignment_name">Assignment Title</string>
     <string name="max_points">Max Points</string>
     <string name="current_points">Current Points</string>
-    <string name="goal_points">Weight</string>
+    <string name="weight_points">Weight</string>
     <string name="assign_add">+ Assignment</string>
     <string name="class_save">Save</string>
     <string name="calculate_points">Calculate</string>
+    <string name="user_goal_points">Enter grade wanted (\'A\', \'B\', \'C\', \'D\')</string>
+    <string name="curr_point_hint">Please leave the \"Current Points\" column blank if you did not take the assignment.</string>
 </resources>
