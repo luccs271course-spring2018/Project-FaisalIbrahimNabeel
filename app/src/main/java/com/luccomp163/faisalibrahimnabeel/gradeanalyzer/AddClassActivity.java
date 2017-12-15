@@ -11,7 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*class T{
     double points;
@@ -29,7 +31,8 @@ public class AddClassActivity extends AppCompatActivity {
     //public static final String COURSE_MAP = "com.example.myfirstapp.MESSAGE";
     //public static List<Object> courseAssignments = new ArrayList<>();
     public static final String COURSE_NAME = "com.example.myfirstapp.MESSAGE";
-    HashMap<String, List<String>> courseMap = new HashMap<>();
+    HashMap<String, Set<List<String>>> courseMap = new HashMap<>();
+    Set<List<String>> assignmentSet = new HashSet<>();
     int clickCount = 0;
 
     @Override
@@ -48,15 +51,15 @@ public class AddClassActivity extends AppCompatActivity {
 
 
         //Button
-        final Button button = (Button) findViewById(R.id.button2);
+        final Button button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clickCount += 1;
 
-                LinearLayout linearLayout2=(LinearLayout)findViewById(R.id.linL2);
-                LinearLayout linearLayout3=(LinearLayout)findViewById(R.id.linL3);
-                LinearLayout linearLayout4=(LinearLayout)findViewById(R.id.linL4);
-                LinearLayout linearLayout5=(LinearLayout)findViewById(R.id.linL5);
+                LinearLayout linearLayout2= findViewById(R.id.linL2);
+                LinearLayout linearLayout3= findViewById(R.id.linL3);
+                LinearLayout linearLayout4= findViewById(R.id.linL4);
+                LinearLayout linearLayout5= findViewById(R.id.linL5);
 
                 if (clickCount > 0 && clickCount < 5) {
 
@@ -100,60 +103,88 @@ public class AddClassActivity extends AppCompatActivity {
         // Do something in response to button click
         // USE: Float.valueOf(String) later.
 
-        // The input of
-        LinearLayout linearLayout2=(LinearLayout)findViewById(R.id.linL2);
-        LinearLayout linearLayout3=(LinearLayout)findViewById(R.id.linL3);
-        LinearLayout linearLayout4=(LinearLayout)findViewById(R.id.linL4);
-        LinearLayout linearLayout5=(LinearLayout)findViewById(R.id.linL5);
+        /** The input of the assignments for each course consist 5 fields of:
+         *      LinearLayouts, each containing 4 fields of:
+         *          EditText (plain text) fields.
+         * * Currently, the App only supports 5 assignments for the user to input.
+         * * The First LinearLayout is not defined here because we will not need
+         *   to check if it's visible or not since it'll always be available to
+         *   the user.
+         * * The other 4 layouts are defined in order to check their visibility
+         *   status and therefore determine in an if-statement if we will need
+         *   to save the values within the EditText fields inside them*/
 
-        EditText editText10 = (EditText) findViewById(R.id.editText10);
-        EditText editText11 = (EditText) findViewById(R.id.editText11);
-        EditText editText12 = (EditText) findViewById(R.id.editText12);
-        EditText editText13 = (EditText) findViewById(R.id.editText13);
-        EditText editText14 = (EditText) findViewById(R.id.editText14);
-        EditText editText15 = (EditText) findViewById(R.id.editText15);
-        EditText editText16 = (EditText) findViewById(R.id.editText16);
-        EditText editText17 = (EditText) findViewById(R.id.editText17);
-        EditText editText18 = (EditText) findViewById(R.id.editText18);
-        EditText editText19 = (EditText) findViewById(R.id.editText19);
-        EditText editText20 = (EditText) findViewById(R.id.editText20);
-        EditText editText21 = (EditText) findViewById(R.id.editText21);
-        EditText editText22 = (EditText) findViewById(R.id.editText22);
-        EditText editText23 = (EditText) findViewById(R.id.editText23);
-        EditText editText24 = (EditText) findViewById(R.id.editText24);
-        EditText editText25 = (EditText) findViewById(R.id.editText25);
-        EditText editText26 = (EditText) findViewById(R.id.editText26);
-        EditText editText27 = (EditText) findViewById(R.id.editText27);
-        EditText editText28 = (EditText) findViewById(R.id.editText28);
-        EditText editText29 = (EditText) findViewById(R.id.editText29);
+        LinearLayout linearLayout2 = findViewById(R.id.linL2);
+        LinearLayout linearLayout3 = findViewById(R.id.linL3);
+        LinearLayout linearLayout4 = findViewById(R.id.linL4);
+        LinearLayout linearLayout5 = findViewById(R.id.linL5);
 
+        /** All EditText fields (mentioned) earlier are defined*/
+        EditText editText10 = findViewById(R.id.editText10);
+        EditText editText11 = findViewById(R.id.editText11);
+        EditText editText12 = findViewById(R.id.editText12);
+        EditText editText13 = findViewById(R.id.editText13);
+        EditText editText14 = findViewById(R.id.editText14);
+        EditText editText15 = findViewById(R.id.editText15);
+        EditText editText16 = findViewById(R.id.editText16);
+        EditText editText17 = findViewById(R.id.editText17);
+        EditText editText18 = findViewById(R.id.editText18);
+        EditText editText19 = findViewById(R.id.editText19);
+        EditText editText20 = findViewById(R.id.editText20);
+        EditText editText21 = findViewById(R.id.editText21);
+        EditText editText22 = findViewById(R.id.editText22);
+        EditText editText23 = findViewById(R.id.editText23);
+        EditText editText24 = findViewById(R.id.editText24);
+        EditText editText25 = findViewById(R.id.editText25);
+        EditText editText26 = findViewById(R.id.editText26);
+        EditText editText27 = findViewById(R.id.editText27);
+        EditText editText28 = findViewById(R.id.editText28);
+        EditText editText29 = findViewById(R.id.editText29);
+
+        /** A type:List<String> is defined to hold the EditText values in each assignment
+         *      All EditText fields are casted into Strings to ease the latter conversion
+         *      in Class/Singleton:"GradeAnalyzerApplication.java".
+         * * Each of the Lists then are added to a type:HashMap <String, List<String>> variable
+         *   called "courseMap" which will be sent later to our "GradeAnalyzerApplication" for
+         *   analysis and data structuring.
+         * * The key-values for the Map is formatted such that:
+         *   * The key is the course's name -> "courseNameHolder"
+         *   * The value is the Set of Lists of assignments, each List containing a String value of:
+         *     * The maximum amount of points for that assignment.
+         *     * The current amount of points for that assignment.
+         *     * The weight which each assignment holds toward the total grade.*/
         List<String> assignment1 = Arrays.asList(editText10.getText().toString(),
                 editText11.getText().toString(), editText12.getText().toString(),
                 editText13.getText().toString());
-        courseMap.put(courseNameHolder, assignment1);
+        assignmentSet.add(assignment1);
+        //courseMap.put(courseNameHolder, assignment1);
         //courseAssignments.add(assignment1);
         if (linearLayout2.getVisibility() == View.VISIBLE) {
             List<String> assignment2 = Arrays.asList(editText14.getText().toString(),
                     editText15.getText().toString(), editText16.getText().toString(), editText17.getText().toString());
-            courseMap.put(courseNameHolder, assignment2);
+            assignmentSet.add(assignment2);
+            //courseMap.put(courseNameHolder, assignment2);
             //courseAssignments.add(assignment2);
         }
         if (linearLayout3.getVisibility() == View.VISIBLE) {
             List<String> assignment3 = Arrays.asList(editText18.getText().toString(),
                     editText19.getText().toString(), editText20.getText().toString(), editText21.getText().toString());
-            courseMap.put(courseNameHolder, assignment3);
+            assignmentSet.add(assignment3);
+            // courseMap.put(courseNameHolder, assignment3);
             //courseAssignments.add(assignment3);
         }
         if (linearLayout4.getVisibility() == View.VISIBLE) {
             List<String> assignment4 = Arrays.asList(editText22.getText().toString(),
                     editText23.getText().toString(), editText24.getText().toString(), editText25.getText().toString());
-            courseMap.put(courseNameHolder, assignment4);
+            assignmentSet.add(assignment4);
+            //courseMap.put(courseNameHolder, assignment4);
             //courseAssignments.add(assignment4);
         }
         if (linearLayout5.getVisibility() == View.VISIBLE) {
             List<String> assignment5 = Arrays.asList(editText26.getText().toString(),
                     editText27.getText().toString(), editText28.getText().toString(), editText29.getText().toString());
-            courseMap.put(courseNameHolder, assignment5);
+            assignmentSet.add(assignment5);
+            //courseMap.put(courseNameHolder, assignment5);
             //courseAssignments.add(assignment5);
         }
 
@@ -166,17 +197,21 @@ public class AddClassActivity extends AppCompatActivity {
         //intent.putExtra(COURSE_NAME, courseMapString);
 
         //Intent intent = new Intent(this, MyOtherActivity.class);
+        /** assign the final Set as the value for the course's key. */
+        courseMap.put(courseNameHolder, assignmentSet);
 
-        //Create appState: an instance of the application state.
-        // Used to retrieve data from and to the global "GradeAnalyzerClass"
-        // Contains:
-        //  1. The courses data in the form of Linkedlists, Maps, and Lists.
-        //  2. The algorithm to predict the user's grade.
+        /** Create appState: an instance of the application state.
+         * * Used to retrieve data from and to the global "GradeAnalyzerClass" that contains:
+         *   * 1.Data storage of:
+         *     * All courses using LinkedLists.
+         *     * The assignments of each course using HashMaps.
+         *     * The grades and description of each assignment using Lists.
+         *   * 2.The algorithm to predict the user's grade.*/
 
         GradeAnalyzerApplication appState = ((GradeAnalyzerApplication)this.getApplication());
-        appState.service.SaveCourseValues(courseMap);
+        appState.service.SaveCourseValues(courseMap, courseNameHolder);
 
-        /** Passes the course's name to the DisplayMessageActivity.*/
+        /** Passes the course's name to the DisplayMessageActivity then starts that activity*/
         intent.putExtra(COURSE_NAME, courseNameHolder);
         //intent.putExtra(COURSE_NAME, String.valueOf(courseAssignments));
         startActivity(intent);
